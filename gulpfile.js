@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     usemin = require('gulp-usemin');
 
 gulp.task('default', function() {
-    gulp.src(['node_modules/d3/build/d3.js',
+    gulp.src(['node_modules/d3/d3.js',
         'node_modules/vega/vega.js',
         'node_modules/vega-embed/vega-embed.js'])
         //.pipe(concat('script.js'))
