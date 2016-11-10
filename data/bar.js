@@ -1,20 +1,9 @@
-module.exports=	{
+module.exports={
   "width": 400,
   "height": 200,
   "padding": {"top": 10, "left": 30, "bottom": 30, "right": 10},
-
-  "signals": [
-    {
-      "name": "tooltip",
-      "init": {},
-      "streams": [
-        {"type": "rect:mouseover", "expr": "datum"},
-        {"type": "rect:mouseout", "expr": "{}"}
-      ]
-    },
-    {
-    	"name": "A", "init": 1
-	}
+   "signals": [
+    {"name": "add"}
   ],
   "data": [
     {
@@ -31,12 +20,11 @@ module.exports=	{
         {"x": 17, "y": 68}, {"x": 18, "y": 16},
         {"x": 19, "y": 49}, {"x": 20, "y": 15}
       ],
-      "modify": [
-          {"type": "insert", "signal": "A"}
+       "modify": [
+          {"type": "insert", "signal": "add"}
         ]
     }
   ],
-
   "scales": [
     {
       "name": "x",
@@ -52,9 +40,10 @@ module.exports=	{
       "nice": true
     }
   ],
-
-  "axes": [{"type": "x", "scale": "x"}],
-
+  "axes": [
+    {"type": "x", "scale": "x"},
+    {"type": "y", "scale": "y"}
+  ],
   "marks": [
     {
       "type": "rect",
@@ -67,37 +56,14 @@ module.exports=	{
           "y2": {"scale": "y", "value": 0}
         },
         "update": {
-		  "x": {"scale": "x", "field": "x"},
+           "x": {"scale": "x", "field": "x"},
           "width": {"scale": "x", "band": true, "offset": -1},
           "y": {"scale": "y", "field": "y"},
           "y2": {"scale": "y", "value": 0},
-          "fill": [
-            { "test": "datum._id == tooltip._id",
-              "value": "red"
-            },
-            {"value": "steelblue"}
-          ]
-        }
-      }
-    },
-    {
-      "type": "text",
-      "properties": {
-        "enter": {
-          "align": {"value": "center"},
-          "fill": {"value": "#333"}
+          "fill": {"value": "steelblue"}
         },
-        "update": {
-          "x": {"scale": "x", "signal": "tooltip.x"},
-          "dx": {"scale": "x", "band": true, "mult": 0.5},
-          "y": {"scale": "y", "signal": "tooltip.y", "offset": -5},
-          "text": {"signal": "tooltip.y"},
-          "fillOpacity": [
-            { "test": "!tooltip._id",
-              "value": 0
-            },
-            {"value": 1}
-          ]
+        "hover": {
+          "fill": {"value": "red"}
         }
       }
     }

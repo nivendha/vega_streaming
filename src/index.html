@@ -3,31 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <script src="d3.js" charset="utf-8"></script>
-<script src="vega.js" charset="utf-8"></script>
-<script src="vega-embed.js" charset="utf-8"></script>
-<script src="client.js" charset="utf-8"></script>
+  <script src="vega.js" charset="utf-8"></script>
+  <script src="vega-embed.js" charset="utf-8"></script>
+  <script src="client.js" charset="utf-8"></script>
   <title>MY APP</title>
 </head>
 <body>
   <div id='vis'></div>
-<script >
-  d3.xhr('http://localhost:8080/data')
-  .header("Content-Type", "application/json")
-  .get(
-    function(err, rawData){
-      var data = JSON.parse(rawData.response);
-      console.log("got response", data);
-      vg.parse.spec(data, function(error, chart) {
-       var view=chart({el:"#vis"}).update(); 
-       view.signal('A',{"x": 21,  "y": 111});
-       view.update();
-       view.signal('A',{"x": 22,  "y": 3});
-       view.update();
-       view.signal('A',{"x": 23,  "y": 122});
-       view.update();
-   });
-});
-  
-</script>
-</body>
-</html>
+  <script >
+    d3.xhr('/data')
+    .header("Content-Type", "application/json")
+    .get(
+      function(err, rawData){
+        var data = JSON.parse(rawData.response);
+        console.log("got response", data);
+        vg.parse.spec(data, function(error, chart) {
+         var view=chart({el:"#vis"}).update(); 
+        /* view.signal('add',{"x": 21,  "y": 111});
+         view.update();
+         view.signal('add',{"x": 22,  "y": 3});
+         view.update();
+         */ 
+         var ws=new Whiteboard();
+         ws.setMouseHandler(function(data){
+          //console.log(data);
+          view.signal('add',{"x": data.x,  "y": data.y});
+          view.update();
+        })
+         ws.connect();         
+       });
+      });
+
+    </script>
+  </body>
+  </html>

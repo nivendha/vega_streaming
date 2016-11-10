@@ -3,7 +3,6 @@ function Whiteboard() {
     // Define accepted commands
     this.messageHandlers = {
         initCommands: this.initCommands.bind(this),
-        drawBar:this.drawBar.bind(this),
         clear: this.clear.bind(this)
     };
 
@@ -11,12 +10,14 @@ function Whiteboard() {
     this.lastPoint = null;
     this.mouseDown = false;
 };
-
+Whiteboard.prototype.setMouseHandler= function(fn){
+this.messageHandlers['mouse']=fn.bind(this);
+}
 Whiteboard.prototype.connect = function() {
     var url = "ws://" + document.URL.substr(7).split('/')[0];
     
     var wsCtor = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    this.socket = new wsCtor("ws://http://127.0.0.1:8080/", 'whiteboard-example');
+    this.socket = new wsCtor("ws://127.0.0.1:8080/", 'whiteboard-example');
 
     this.socket.onmessage = this.handleWebsocketMessage.bind(this);
     this.socket.onclose = this.handleWebsocketClose.bind(this);
@@ -61,10 +62,6 @@ Whiteboard.prototype.sendClear = function() {
     this.socket.send(JSON.stringify({ msg: 'clear' }));
 };
 
-Whiteboard.prototype.drawBar = function(data) {
-  
-};
-
 Whiteboard.prototype.clear = function() {
 
 };
@@ -88,24 +85,15 @@ Whiteboard.prototype.handleMouseMove = function(event) {
     // The actual line is drawn when the command
     // is received back from the server.
     this.socket.send(JSON.stringify({
-        msg: 'drawLine',
+        msg: 'mouse',
         data: {
-            points: [
-                this.lastPoint.x,
-                this.lastPoint.y,
-                currentPoint.x,
-                currentPoint.y
-            ]
+            x:currentPoint.x,
+            y:currentPoint.y
         }
     }));
     
     this.lastPoint = currentPoint;
 };
-
-Whiteboard.prototype.initCanvas = function(canvasId) {
-    
-};
-
 
 Whiteboard.prototype.addCanvasEventListeners = function() {
      window.document.addEventListener(
