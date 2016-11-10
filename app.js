@@ -1,4 +1,5 @@
 var express = require('express');
+var data = require('./data.js');
 //var vega =require('vega');
 var WebSocketServer = require('websocket').server;
 
@@ -10,13 +11,13 @@ var app = express();
 app.get('/', function(req, res) {
     res.render('index', { layout: false });
 });
+app.get('/data', function(req, res) {
+    res.send(data);
+});
 app.listen(8080);
 
 var wsServer = new WebSocketServer({
     httpServer: app,
-    
-    // Firefox 7 alpha has a bug that drops the
-    // connection on large fragmented messages
     fragmentOutgoingMessages: false
 });
 
