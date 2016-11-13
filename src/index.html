@@ -19,18 +19,23 @@
         console.log("got response", data);
         vg.parse.spec(data, function(error, chart) {
          var view=chart({el:"#vis"}).update(); 
-        /* view.signal('add',{"x": 21,  "y": 111});
-         view.update();
-         view.signal('add',{"x": 22,  "y": 3});
-         view.update();
-         */ 
          var ws=new Whiteboard();
-         ws.setMouseHandler(function(data){
-          //console.log(data);
-          view.signal('add',{"x": data.x,  "y": data.y});
+         ws.connect();
+         ws.socket.onmessage=function(data){
+          data=JSON.parse(data.data);
+          //view.signal('update',{"x": data.x,  "y": data.y});
+          view.data('table')
+        //  .insert([{"x": 21,"y":100}]);
+        //      .insert([{"x": view.data().table.length+1,"y":data.y}]);
+      //  view.update();
+          view.data('table')
+            .update(function(d) {
+             return d.x == data.x;
+             }, 'y', function(d) {
+              return data.y; 
+            });
           view.update();
-        })
-         ws.connect();         
+        }
        });
       });
 

@@ -4,7 +4,6 @@ var webSocketConnect = require('./websocket.js');
 var WebSocketServer = require('websocket').server;
 
 
-var ws = require("nodejs-websocket")
 var data = require('./data');
 
 var server = http.createServer(function(request, response) {
@@ -12,8 +11,8 @@ var server = http.createServer(function(request, response) {
     response.writeHead(404);
     response.end();
 });
-server.listen(8080, function() {
-    console.log((new Date()) + ' Server is listening on port 8080');
+server.listen(8002, function() {
+    console.log((new Date()) + ' Server is listening on port 8002');
 });
 
 var app = express();
@@ -24,8 +23,9 @@ app.set('view engine', 'html');
 app.get('/', function(req, res) {
     res.render('index', { layout: false });
 });
+
 app.get('/data', function(req, res) {
-    res.send(data.bar);
+    res.send(data.area);
 });
 app.listen(8081);
 

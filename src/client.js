@@ -17,7 +17,7 @@ Whiteboard.prototype.connect = function() {
     var url = "ws://" + document.URL.substr(7).split('/')[0];
     
     var wsCtor = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    this.socket = new wsCtor("ws://127.0.0.1:8080/", 'whiteboard-example');
+    this.socket = new wsCtor("ws://127.0.0.1:8002/", 'whiteboard-example');
 
     this.socket.onmessage = this.handleWebsocketMessage.bind(this);
     this.socket.onclose = this.handleWebsocketClose.bind(this);

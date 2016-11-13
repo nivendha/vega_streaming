@@ -3,7 +3,8 @@ module.exports={
   "height": 200,
   "padding": {"top": 10, "left": 30, "bottom": 30, "right": 10},
    "signals": [
-    {"name": "add"}
+    {"name": "add"},
+     {"name": "update"}
   ],
   "data": [
     {
@@ -21,7 +22,8 @@ module.exports={
         {"x": 19, "y": 49}, {"x": 20, "y": 15}
       ],
        "modify": [
-          {"type": "insert", "signal": "add"}
+          {"type": "insert", "signal": "add"},
+          {"type": "toggle", "signal": "update"},
         ]
     }
   ],
@@ -50,10 +52,6 @@ module.exports={
       "from": {"data": "table"},
       "properties": {
         "enter": {
-          "x": {"scale": "x", "field": "x"},
-          "width": {"scale": "x", "band": true, "offset": -1},
-          "y": {"scale": "y", "field": "y"},
-          "y2": {"scale": "y", "value": 0}
         },
         "update": {
            "x": {"scale": "x", "field": "x"},
