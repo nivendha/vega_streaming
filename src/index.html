@@ -23,11 +23,7 @@
          ws.connect();
          ws.socket.onmessage=function(data){
           data=JSON.parse(data.data);
-          //view.signal('update',{"x": data.x,  "y": data.y});
-          view.data('table')
-        //  .insert([{"x": 21,"y":100}]);
-        //      .insert([{"x": view.data().table.length+1,"y":data.y}]);
-      //  view.update();
+
           view.data('table')
             .update(function(d) {
              return d.x == data.x;
