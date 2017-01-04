@@ -1,5 +1,8 @@
 # vega_streaming
 
-after cloning use
+After cloning use
 
- node i && npm start
+npm i && npm start to start the application
+
+To set the plot type please see the 
+'CONFIG' in app.js

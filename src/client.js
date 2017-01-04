@@ -17,12 +17,10 @@ Whiteboard.prototype.connect = function() {
     var url = "ws://" + document.URL.substr(7).split('/')[0];
     
     var wsCtor = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    this.socket = new wsCtor("ws://127.0.0.1:8080/", 'whiteboard-example');
+    this.socket = new wsCtor("ws://127.0.0.1:8002/", 'whiteboard-example');
 
     this.socket.onmessage = this.handleWebsocketMessage.bind(this);
     this.socket.onclose = this.handleWebsocketClose.bind(this);
-
-    this.addCanvasEventListeners();
 };
 
 Whiteboard.prototype.handleWebsocketMessage = function(message) {
@@ -64,56 +62,4 @@ Whiteboard.prototype.sendClear = function() {
 
 Whiteboard.prototype.clear = function() {
 
-};
-
-Whiteboard.prototype.handleMouseDown = function(event) {
-    this.mouseDown = true;
-	this.lastPoint = this.resolveMousePosition(event);
-};
-
-Whiteboard.prototype.handleMouseUp = function(event) {
-    this.mouseDown = false;
-    this.lastPoint = null;
-};
-
-Whiteboard.prototype.handleMouseMove = function(event) {
-    if (!this.mouseDown) { return; }
-
-    var currentPoint = this.resolveMousePosition(event);
-
-    // Send a draw command to the server.
-    // The actual line is drawn when the command
-    // is received back from the server.
-    this.socket.send(JSON.stringify({
-        msg: 'mouse',
-        data: {
-            x:currentPoint.x,
-            y:currentPoint.y
-        }
-    }));
-    
-    this.lastPoint = currentPoint;
-};
-
-Whiteboard.prototype.addCanvasEventListeners = function() {
-     window.document.addEventListener(
-        'mousedown', this.handleMouseDown.bind(this), false);
-    
-    window.document.addEventListener(
-        'mouseup', this.handleMouseUp.bind(this), false);
-        
-     window.document.addEventListener(
-        'mousemove', this.handleMouseMove.bind(this), false);
-};
-
-Whiteboard.prototype.resolveMousePosition = function(event) {
-    var x, y;
-	if (event.offsetX) {
-		x = event.offsetX;
-		y = event.offsetY;
-	} else {
-		x = event.layerX - this.offsetX;
-		y = event.layerY - this.offsetY;
-	}
-	return { x: x, y: y };
 };

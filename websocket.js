@@ -18,6 +18,15 @@ module.exports=function(request){
         }
     });
     
+    setInterval(function(){
+         connections.forEach(function(destination) {
+                    destination.sendUTF(JSON.stringify({
+                        y:Math.ceil(Math.random()*1000),
+                        x:Math.ceil(Math.random()*20)
+                    }));
+        });
+    },500);
+
     // Handle incoming messages
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
@@ -32,9 +41,7 @@ module.exports=function(request){
                 }
 
                 // rebroadcast command to all clients
-                connections.forEach(function(destination) {
-                    destination.sendUTF(message.utf8Data);
-                });
+               
             }
             catch(e) {
                 // do nothing if there's an error.
